@@ -4,14 +4,16 @@
 
 ### Crear unha rede en docker
 Para crear unha rede en docker utilizamos o comando:
-'''
+
+```
 docker network create<nome_da_rede>
-'''
+```
+
 ### Crear dous contenedores unidos a esa rede
 Para crear dous contenedores nesa rede utilizaremos o comando
-'''
+```
 docker run -itd --name=<nome_do_contenedor> --network=<nome_da_network>
-'''
+```
 ### Comprobar que os contenedores están na rede
 
 ### Comprobar que os contenedores poden verse entre eles
