@@ -74,6 +74,41 @@ docker exec -it <nome_do_contenedor> sh
 ## Docker compose:
 ---
 ### Segue os pasos da guía de iniciación de docker-compose, e explica coas túas palabras os pasos que segues e qué fan
+
+O primeiro que faremos será descargar docker compose isto o faremos co comando:
+```
+sudo apt install docker-compose
+```
+Agora crearemos unha carpeta onde irá o noso proxecto e entraremos nela:
+```
+mkdir <nome_da_carpeta> && cd <nome_da_carpeta>
+```
+Nesta ubicación crearemos un arquivo chamado app.py, o cal estará escrito en python, e copiaremos o seguinte codigo:
+```
+import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return 'Hello World! I have been seen {} times.\n'.format(count)
+```
 ---
 ### Agora que sabes algo máis de docker-compose, crea un arquivo (ou varios arquivos) de configuración que ó ser lanzados cun docker-compose up, resulten nunha rede docker á que estean conectados 3 contenedores, explica os parámetros do .yaml usado
 ---
