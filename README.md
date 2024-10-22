@@ -69,6 +69,7 @@ Para saber se os contenedores se ven entre eles debemos hacer ping, para iso ent
 ```
 docker exec -it <nome_do_contenedor> sh
 ```
+Nel faremos ping, se non o temos podemos descargar o paquete nettools.
 ---
 
 ## Docker compose:
