@@ -109,8 +109,152 @@ def hello():
     count = get_hit_count()
     return 'Hello World! I have been seen {} times.\n'.format(count)
 ```
+O seguinte será crear un arquivo chamado requirements.txt e copiar o seguinte codigo:
+```
+flask
+redis
+```
+Logo crearemos un Dockerfile y copiaremos el siguiente codigo:
+```
+# syntax=docker/dockerfile:1
+FROM python:3.10-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run", "--debug"]
+```
+Con estos arquivos creados, agora crearemos un arquivo chamado compose.yaml, o cal define dous servizos web e redis, co seguinte codigo:
+```
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+  redis:
+    image: "redis:alpine"
+```
+Agora montaremos e arrancaremos a app con compose, para iso nunha terminal faremos o comando:
+```
+docker compose up
+```
+Se todo foi ben, agora se buscamos nun navegador `http://localhost:8000/` aparecerá o texto "Hello World! I have been seen X times." e se volvemos a terminal podremos ver as conexións cun texto como este:
+```
+eb-1    |  * Serving Flask app 'app.py'
+web-1    |  * Debug mode: on
+web-1    | WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+web-1    |  * Running on all addresses (0.0.0.0)
+web-1    |  * Running on http://127.0.0.1:5000
+web-1    |  * Running on http://172.20.0.3:5000
+web-1    | Press CTRL+C to quit
+web-1    |  * Restarting with stat
+web-1    |  * Debugger is active!
+web-1    |  * Debugger PIN: 526-560-688
+web-1    | 172.20.0.1 - - [15/Oct/2024 19:02:19] "GET /P2.html HTTP/1.1" 404 -
+web-1    | 172.20.0.1 - - [15/Oct/2024 19:02:19] "GET /favicon.ico HTTP/1.1" 404 -
+
+```
 ---
 ### Agora que sabes algo máis de docker-compose, crea un arquivo (ou varios arquivos) de configuración que ó ser lanzados cun docker-compose up, resulten nunha rede docker á que estean conectados 3 contenedores, explica os parámetros do .yaml usado
+
+Para facer isto vamos a reciclar a carpeta que xa fixemos antes e borraremos reescribiremos o compose.yaml con un codigo como este:
+```
+services:  # Define os servizos (contenedores)
+  
+  <Nome_do_contedor>:
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+  <Nome_do_contedor>:
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+  <Nome_do_contedor>:
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+
+networks:  # Definición das redes
+  <nome_da_rede>:  # Nome da rede que estamos a crear
+    driver: <tipo_de_rede>  
+```
+Se todo foi ben debería devolver a terminal isto:
+```
+services:  # Define os servizos (contenedores)
+  
+  app1:  <Nome_do_contedor>
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+  app2:  <Nome_do_contedor>
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+  app1:  <Nome_do_contedor>
+    image: <Imaxe_a_utilizar>
+    container_name: <Nome_especifico>
+    networks: 
+      - <Nome_da_rede>
+    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
+
+networks:  # Definición das redes
+  <nome_da_rede>:  # Nome da rede que estamos a crear
+    driver: <tipo_de_rede>  
+```
 ---
 ### Busca e proba 4 parámetros e configuracións diferentes que podes incluir no arquivo compose, explica qué fan. (por exemplo diferentes cousas que facer coa opción RUN)
+
+O primeiro parámetro que vamos a ver é `environment` o cal permite establecer variables de contorno para un contenedor. Como por exemplo configurar a conexión a base de datos, portos,...
+Un código posible podería ser:
+```
+services:
+  web:
+    image: "nginx:latest"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+```
+O segundo parámetro é `volumes` o cal permietenos mapear directorios ou ficheros do sistema anfitrión ou contedor. Un exemplo sería:
+```
+services:
+  web:
+    image: "nginx:latest"
+    volumes:
+      - ./html:/usr/share/nginx/html
+```
+O terceiro parámetro é `ports`, que nos permite expoñer portos do contedor ao sistema anfitrión.
+Isto fai que o servizo sexa accesible dende o sistema anfitrión ou dende outros dispositivos na rede. Un exemplo sería:
+```
+services:
+  web:
+    image: "nginx:latest"
+    ports:
+      - "8080:80"
+```
+O cuarto parámetro é `depends_on`, o cal asegura que uns servizos comecen antes que outros.
+Úsase para definir dependencias entre servizos. Un exemplo sería:
+```
+services:
+  db:
+    image: "postgres:latest"
+  web:
+    image: "nginx:latest"
+    depends_on:
+      - db
+```
+
 ---
