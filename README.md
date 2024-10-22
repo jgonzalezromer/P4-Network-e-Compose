@@ -15,7 +15,10 @@ Para crear dous contenedores nesa rede utilizaremos o comando
 docker run -itd --name=<nome_do_contenedor> --network=<nome_da_network>
 ```
 ### Comprobar que os contenedores están na rede
-
+Para ver os detalles dunha rede, onde poderemos encontrar un apartado de "Containers" onde estarán os contenedores que están ligados a esa rede, utilizamos o comando:
+```
+docker network inspect <nome_da_rede>
+```
 ### Comprobar que os contenedores poden verse entre eles
 
 ### Listar os contenedores conectados á rede
