@@ -1,4 +1,13 @@
-# P4-Network-e-Compose
+<h1>
+<p align=center>
+P4-Network-e-Compose 
+</p>
+</h1>
+<h3>
+<p align=center>
+Juan Gabriel González Romero
+</p>
+</h3>
 ---
 ## Docker network
 ---
@@ -55,6 +64,10 @@ docker run -itd --name=<nome_do_contenedor> --network=<nome_da_network>
 ---
 ### Comproba as posibles conexións entre os 4 contenedores
 Como os contenedores están en distintas redes 2 a 2, estes so poderan ver os contenedores que están na sua rede.
+Para saber se os contenedores se ven entre eles debemos hacer ping, para iso entraremos nunha terminal co comando:
+```
+docker exec -it <nome_do_contenedor> sh
+```
 ---
 
 ## Docker compose:
