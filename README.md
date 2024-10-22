@@ -32,11 +32,10 @@ docker network inspect <nome_da_rede>
 ```
 ---
 ### Comprobar que os contenedores poden verse entre eles
-Para saber se os contenedores se ven entre eles debemos hacer ping, para iso entraremos nunha terminal co comando:
+Para saber se os contenedores se ven entre eles debemos hacer ping, para iso entraremos nunha terminal, facendo ping, se non o temos podemos descargar o paquete nettools,co comando:
 ```
 docker exec -it <nome_do_contenedor> sh
 ```
-Nel faremos ping, se non o temos podemos descargar o paquete nettools.
 ---
 ### Listar os contenedores conectados á rede
 Para ver os detalles dunha rede, onde poderemos encontrar un apartado de "Containers" onde estarán os contenedores que están ligados a esa rede, utilizamos o comando:
@@ -65,11 +64,11 @@ docker run -itd --name=<nome_do_contenedor> --network=<nome_da_network>
 ---
 ### Comproba as posibles conexións entre os 4 contenedores
 Como os contenedores están en distintas redes 2 a 2, estes so poderan ver os contenedores que están na sua rede.
-Para saber se os contenedores se ven entre eles debemos hacer ping, para iso entraremos nunha terminal co comando:
+Para saber se os contenedores se ven entre eles debemos hacer ping, para iso entraremos nunha terminal, facendo ping, se non o temos podemos descargar o paquete nettools,co comando:
 ```
 docker exec -it <nome_do_contenedor> sh
 ```
-Nel faremos ping, se non o temos podemos descargar o paquete nettools.
+
 ---
 
 ## Docker compose:
