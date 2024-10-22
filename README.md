@@ -190,30 +190,15 @@ networks:  # Definición das redes
 ```
 Se todo foi ben debería devolver a terminal isto:
 ```
-services:  # Define os servizos (contenedores)
-  
-  app1:  <Nome_do_contedor>
-    image: <Imaxe_a_utilizar>
-    container_name: <Nome_especifico>
-    networks: 
-      - <Nome_da_rede>
-    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
-  app2:  <Nome_do_contedor>
-    image: <Imaxe_a_utilizar>
-    container_name: <Nome_especifico>
-    networks: 
-      - <Nome_da_rede>
-    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
-  app1:  <Nome_do_contedor>
-    image: <Imaxe_a_utilizar>
-    container_name: <Nome_especifico>
-    networks: 
-      - <Nome_da_rede>
-    command: tail -f /dev/null #Este comando fai que se mantenga activo o contenedor
-
-networks:  # Definición das redes
-  <nome_da_rede>:  # Nome da rede que estamos a crear
-    driver: <tipo_de_rede>  
+gabriel@gabriel-VirtualBox:~/proxecto0$ docker compose up
+WARN[0000] Found orphan containers ([proxecto0-web-1 proxecto0-redis-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] Running 4/4
+ ✔ Network proxecto0_rede01  Crea...                            0.0s 
+ ✔ Container proxecto02      Created                            0.1s 
+ ✔ Container proxecto03      Created                            0.1s 
+ ✔ Container proxecto01      Created                            0.1s 
+Attaching to proxecto01, proxecto02, proxecto03
+ 
 ```
 ---
 ### Busca e proba 4 parámetros e configuracións diferentes que podes incluir no arquivo compose, explica qué fan. (por exemplo diferentes cousas que facer coa opción RUN)
